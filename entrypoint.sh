@@ -16,7 +16,9 @@ fi
 OUTPUT_BRANCH="$INPUT_DESTINATION_BRANCH"
 
 CLONE_DIR=$(mktemp -d)
-TAG_VERSION=$(git describe --tags)
+TAGS=$(git tag)
+
+echo $TAGS
 
 echo "Cloning destination git repository"
 git config --global user.email "$INPUT_USER_EMAIL"
