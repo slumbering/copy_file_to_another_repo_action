@@ -17,6 +17,8 @@ OUTPUT_BRANCH="$INPUT_DESTINATION_BRANCH"
 
 CLONE_DIR=$(mktemp -d)
 
+echo $GITHUB_REF
+
 echo "Cloning destination git repository"
 git config --global user.email "$INPUT_USER_EMAIL"
 git config --global user.name "$INPUT_USER_NAME"
