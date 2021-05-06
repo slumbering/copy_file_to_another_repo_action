@@ -21,7 +21,7 @@ if [ -z "$GITHUB_REF"]
 then
   CURRENT_REF=main
 else
-  CURRENT_REF=$GITHUB_REF | cut -d '/' -f3
+  CURRENT_REF=$( echo "$GITHUB_REF" |cut -d/ -f3)
 fi
 
 echo $CURRENT_REF
