@@ -17,7 +17,14 @@ OUTPUT_BRANCH="$INPUT_DESTINATION_BRANCH"
 
 CLONE_DIR=$(mktemp -d)
 
-echo $GITHUB_REF
+if [ -z "$GITHUB_REF"]
+then
+  CURRENT_REF=main
+else
+  CURRENT_REF=$GITHUB_REF | cut -d '/' -f3
+fi
+
+echo $CURRENT_REF
 
 echo "Cloning destination git repository"
 git config --global user.email "$INPUT_USER_EMAIL"
