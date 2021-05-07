@@ -37,7 +37,7 @@ echo "Copying contents to git repo"
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF
 cp -R "$INPUT_SOURCE_FILE" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF"
 cd "$CLONE_DIR"
-mkdir -p tags
+mkdir -p site/tags
 cp "$ROOTDIR/tags.json" ./site/tags/tags.json
 
 if [ ! -z "$INPUT_DESTINATION_BRANCH_CREATE" ]
