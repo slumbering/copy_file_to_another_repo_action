@@ -24,15 +24,21 @@ else
   CURRENT_REF=$( echo "$GITHUB_REF" |cut -d/ -f3)
 fi
 
+echo "Retieve tag list"
+ROOTDIR=$(pwd)
+echo "{ \"tags\" : [\"$(git tag -l "v*" | tr '\n' '|' | sed -e 's/|/","/g')main\"] }" > tags.json 
+
 echo "Cloning destination git repository"
 git config --global user.email "$INPUT_USER_EMAIL"
 git config --global user.name "$INPUT_USER_NAME"
-git clone --single-branch --branch $INPUT_DESTINATION_BRANCH "https://x-access-token:$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
+git clone --single-branch --branch $INPUT_DESTINATION_BRANCH "https://github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Copying contents to git repo"
 mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF
 cp -R "$INPUT_SOURCE_FILE" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF"
 cd "$CLONE_DIR"
+mkdir -p tags
+cp "$ROOTDIR/tags.json" ./tags/tags.json
 
 if [ ! -z "$INPUT_DESTINATION_BRANCH_CREATE" ]
 then
@@ -42,7 +48,7 @@ fi
 
 if [ -z "$INPUT_COMMIT_MESSAGE" ]
 then
-  INPUT_COMMIT_MESSAGE="Update from https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+  INPUT_COMMIT_MESSAGE="Update from https://github.com/$%7BGITHUB_REPOSITORY%7D/commit/$%7BGITHUB_SHA%7D"
 fi
 
 echo "Adding git commit"
