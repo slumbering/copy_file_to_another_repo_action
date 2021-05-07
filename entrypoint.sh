@@ -26,7 +26,7 @@ fi
 
 echo "Retieve tag list"
 ROOTDIR=$(pwd)
-echo "{ \"tags\" : [\"$(git tag -l "v*" | tr '\n' '|' | sed -e 's/|/","/g')main\"] }" > tags.json 
+echo "[ {\"tag\": \"$(git tag -l "v*" | tr '\n' '|' | sed -e 's/|/"}, {\"tag\": "/g')main\"} ]" > tags.json 
 
 echo "Cloning destination git repository"
 git config --global user.email "$INPUT_USER_EMAIL"
