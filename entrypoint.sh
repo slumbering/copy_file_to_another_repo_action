@@ -17,13 +17,6 @@ OUTPUT_BRANCH="$INPUT_DESTINATION_BRANCH"
 
 CLONE_DIR=$(mktemp -d)
 
-if [ -z "$GITHUB_REF"]
-then
-  CURRENT_REF=main
-else
-  CURRENT_REF=$( echo "$GITHUB_REF" |cut -d/ -f3)
-fi
-
 echo "Retieve tag list"
 ROOTDIR=$(pwd)
 echo "[ {\"tag\": \"$(git tag -l "v*" | tr '\n' '|' | sed -e 's/|/"}, {\"tag\": "/g')main\"} ]" > tags.json 
@@ -34,8 +27,8 @@ git config --global user.name "$INPUT_USER_NAME"
 git clone --single-branch --branch $INPUT_DESTINATION_BRANCH "https://x-access-token:$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Copying contents to git repo"
-mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF/
-cp -r "$INPUT_SOURCE_FILE" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF/"
+mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/
+cp -r "$INPUT_SOURCE_FILE" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/"
 cd "$CLONE_DIR"
 mkdir -p site/tags
 cp "$ROOTDIR/tags.json" ./site/tags/tags.json
