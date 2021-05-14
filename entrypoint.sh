@@ -57,13 +57,14 @@ if git status | grep -q "Changes to be committed"
 then
   if [[ $CURRENT_REF != main  ]]
   then
-  git tag -a $CURRENT_REF -m "New Release for ${CURRENT_REF}"
-  echo "Pushing git tag commit"
-  git push --tags
+    git tag -a $CURRENT_REF -m "New Release for ${CURRENT_REF}"
+    echo "Pushing git tag commit"
+    git push --tags
   else
-  git commit --message "$INPUT_COMMIT_MESSAGE"
-  echo "Pushing git commit"
-  git push -u origin HEAD:$OUTPUT_BRANCH
+    git commit --message "$INPUT_COMMIT_MESSAGE"
+    echo "Pushing git commit"
+    git push -u origin HEAD:$OUTPUT_BRANCH
+  fi
 else
   echo "No changes detected"
 fi
