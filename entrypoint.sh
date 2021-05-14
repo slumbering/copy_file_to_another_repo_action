@@ -34,7 +34,7 @@ git config --global user.name "$INPUT_USER_NAME"
 git clone --single-branch --branch $INPUT_DESTINATION_BRANCH "https://x-access-token:$API_TOKEN_GITHUB@github.com/$INPUT_DESTINATION_REPO.git" "$CLONE_DIR"
 
 echo "Copying contents to git repo"
-mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF
+mkdir -p $CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF/
 cp -r "$INPUT_SOURCE_FILE" "$CLONE_DIR/$INPUT_DESTINATION_FOLDER/$CURRENT_REF/"
 cd "$CLONE_DIR"
 mkdir -p site/tags
