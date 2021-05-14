@@ -3,6 +3,13 @@
 set -e
 set -x
 
+if [ -z "$GITHUB_REF"]
+then
+  CURRENT_REF=main
+else
+  CURRENT_REF=$( echo "$GITHUB_REF" |cut -d/ -f3)
+fi
+
 if [ -z "$INPUT_SOURCE_FILE" ]
 then
   echo "Source file must be defined"
@@ -48,6 +55,12 @@ echo "Adding git commit"
 git add .
 if git status | grep -q "Changes to be committed"
 then
+  if [[ CURRENT_REF != main  ]]
+  then
+  git tag -a CURRENT_REF -m "New Release for ${CURRENT_REF}"
+  echo "Pushing git tag commit"
+  git push --tags
+  else
   git commit --message "$INPUT_COMMIT_MESSAGE"
   echo "Pushing git commit"
   git push -u origin HEAD:$OUTPUT_BRANCH
