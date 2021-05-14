@@ -55,9 +55,9 @@ echo "Adding git commit"
 git add .
 if git status | grep -q "Changes to be committed"
 then
-  if [[ CURRENT_REF != main  ]]
+  if [[ $CURRENT_REF != main  ]]
   then
-  git tag -a CURRENT_REF -m "New Release for ${CURRENT_REF}"
+  git tag -a $CURRENT_REF -m "New Release for ${CURRENT_REF}"
   echo "Pushing git tag commit"
   git push --tags
   else
